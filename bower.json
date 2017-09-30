@@ -12,7 +12,7 @@
     "url": "git://github.com/MassimoFoti/jasmine-tree"
   },
   "main": [
-    "dist/jasmine-tree.min.js",
+    "dist/jasmine-tree.js",
     "dist/jasmine-tree.css"
   ],
   "dependencies": {
