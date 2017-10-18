@@ -1,6 +1,10 @@
 node_modules/
 test/coverage
-.idea/workspace.xml
+test/**/TEST-AllTests.xml
+karma_html/
 .idea/dictionaries/Massimo.xml
 .idea/dictionaries/foti.xml
+.idea/misc.xml
 .idea/vcs.xml
+.idea/uiDesigner.xml
+.idea/workspace.xml
