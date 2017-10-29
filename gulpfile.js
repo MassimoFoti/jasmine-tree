@@ -1,9 +1,11 @@
-/* globals console, require */
+/* eslint no-implicit-globals: "off" */
+/* eslint strict: "off" */
+/* global require, __dirname */
+
 "use strict";
 
 var gulp = require("gulp");
 var changed = require("gulp-changed");
-var concat = require("gulp-concat");
 var fs = require("fs");
 var header = require("gulp-header");
 var rename = require("gulp-rename");
@@ -23,7 +25,7 @@ var CONST = {
 	MIN_SUFFIX: ".min.js",
 	CSS_SRC: "src/jasmine-tree.css",
 	JS_SRC: "src/jasmine-tree.js",
-	FOLDERS_TO_ARCHIVE: ["LICENSE","dist/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "jasmine-tree.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp("version = \"(\\d.\\d(.\\d)?)\";")
@@ -48,7 +50,7 @@ function getJsVersion(){
 	return version;
 }
 
-gulp.task("coverage", function (done) {
+gulp.task("coverage", function(done){
 	// Use Karma only for the sake of producing a code coverage report
 	new karmaServer({
 		configFile: __dirname + "/test/karma.conf.js"
@@ -59,18 +61,18 @@ gulp.task("js", function(){
 	var jsVersion = getJsVersion();
 	return gulp.src(CONST.JS_SRC)
 		.pipe(sourcemaps.init())
-			// The "changed" task needs to know the destination directory
-			// upfront to be able to figure out which files changed
-			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(header(assembleBanner(jsVersion))) // Banner for copy
-			.pipe(gulp.dest(CONST.DIST_FOLDER))
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(header(assembleBanner(jsVersion))) // Banner for minified
+		// The "changed" task needs to know the destination directory
+		// upfront to be able to figure out which files changed
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(header(assembleBanner(jsVersion))) // Banner for copy
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(header(assembleBanner(jsVersion))) // Banner for minified
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."

@@ -1,8 +1,10 @@
 /*! 
-jasmine-tree 0.1.3 2016-02-09T10:18:08.193Z
-Copyright 2016 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
+jasmine-tree 0.1.3 2017-10-29T10:30:25.383Z
+Copyright 2017 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* global jasmine */
+
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -183,7 +185,7 @@ if(typeof(jasmineTree) === "undefined"){
 			});
 		};
 
-		var startsWith = function(str, subStr) {
+		var startsWith = function(str, subStr){
 			return (str.substring(0, subStr.length) === subStr);
 		};
 
@@ -260,9 +262,8 @@ if(typeof(jasmineTree) === "undefined"){
 	jasmineTree.init = function(){
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
 			var suite = new jasmineTree.Suite({
-					rootNode: jQuery(item)
-				}
-			);
+				rootNode: jQuery(item)
+			});
 			rootSuites.push(suite);
 		});
 		jasmineTree.addRootClass();

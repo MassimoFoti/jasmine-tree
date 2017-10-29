@@ -1,3 +1,5 @@
+/* global jasmine */
+
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -178,7 +180,7 @@ if(typeof(jasmineTree) === "undefined"){
 			});
 		};
 
-		var startsWith = function(str, subStr) {
+		var startsWith = function(str, subStr){
 			return (str.substring(0, subStr.length) === subStr);
 		};
 
@@ -255,9 +257,8 @@ if(typeof(jasmineTree) === "undefined"){
 	jasmineTree.init = function(){
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
 			var suite = new jasmineTree.Suite({
-					rootNode: jQuery(item)
-				}
-			);
+				rootNode: jQuery(item)
+			});
 			rootSuites.push(suite);
 		});
 		jasmineTree.addRootClass();
