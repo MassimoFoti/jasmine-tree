@@ -100,6 +100,7 @@ gulp.task("default", function(callback){
 	runSequence(
 		"scss",
 		"js",
+		"coverage",
 		"zip",
 		function(error){
 			if(error){
