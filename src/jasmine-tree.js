@@ -6,14 +6,14 @@ if(typeof(jQuery) === "undefined"){
 }
 
 /* istanbul ignore if */
-if(typeof(jasmineTree) === "undefined"){
-	var jasmineTree = {};
+if(typeof(window.jasmineTree) === "undefined"){
+	window.jasmineTree = {};
 }
 
 (function(){
 	"use strict";
 
-	jasmineTree.version = "0.1.3";
+	jasmineTree.version = "1.0";
 
 	var CONST = {
 		CSS_CLASSES: {
@@ -41,12 +41,12 @@ if(typeof(jasmineTree) === "undefined"){
 		FILTER_REGEXP: (new RegExp("[?&]spec=([^&]*)"))
 	};
 
-	/** @type {array.<jasmineTree.Suite>} */
+	/** @type {Array.<jasmineTree.Suite>} */
 	var rootSuites = [];
 
 	/**
 	 * Returns the value of the "spec" parameter in the querystring. Null if it's not specified
-	 * @returns {null|string}
+	 * @return {null|String}
 	 */
 	jasmineTree.getSpecFilter = function(){
 		var match = CONST.FILTER_REGEXP.exec(window.location.search);
@@ -80,9 +80,8 @@ if(typeof(jasmineTree) === "undefined"){
 
 	/**
 	 * Insert toolbar with expand/collapse all buttons
-	 * @param {array.<jasmineTree.Suite>} rootSuites
 	 */
-	jasmineTree.addToolbar = function(rootSuites){
+	jasmineTree.addToolbar = function(){
 
 		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
 		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
@@ -124,8 +123,15 @@ if(typeof(jasmineTree) === "undefined"){
 	};
 
 	/**
+	 * @typedef {Object} jasmineTree.Suite.options
+	 *
+	 * @property {jQuery} rootNode
+	 * @property {String} rootPath
+	 */
+
+	/**
 	 * Wrapper around a suite's HTML node. Adds expand/collapse capabilities
-	 * @param {jquery} options.rootNode
+	 * @param {jasmineTree.Suite.options} options
 	 * @constructor
 	 */
 	jasmineTree.Suite = function(options){
@@ -138,9 +144,9 @@ if(typeof(jasmineTree) === "undefined"){
 		/** @type  {jasmineTree.Suite} */
 		var self = this;
 
-		/** @type {array.<jasmineTree.Suite>} */
+		/** @type {Array.<jasmineTree.Suite>} */
 		var suites = [];
-		/** @type {array.<jquery>} */
+		/** @type {Array.<jQuery>} */
 		var specs = [];
 
 		var fullPath = "";
@@ -190,8 +196,8 @@ if(typeof(jasmineTree) === "undefined"){
 
 		/**
 		 * Given a filter string, coming from the querystring, search if the suite contains specs that match it
-		 * @param {string} path
-		 * @returns {boolean}
+		 * @param {String} path
+		 * @return {Boolean}
 		 */
 		this.containsPath = function(path){
 			// Matches the suite
