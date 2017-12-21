@@ -10,3 +10,5 @@ Either:
 - Use Bower ```bower install jasmineTree```
 
 jasmineTree is designed to work in IE9+ and most recent versions of Chrome and FireFox.
+
+![Screenshot](https://raw.githubusercontent.com/MassimoFoti/jasmineTree/master/screenshot.jpg "Screenshot")
