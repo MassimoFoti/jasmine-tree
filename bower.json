@@ -25,6 +25,7 @@
   "ignore": [
     "**/.*",
     "gulpfile.js",
+    "screenshot.jpg",
     "todo.txt",
     ".idea",
     "archive",
