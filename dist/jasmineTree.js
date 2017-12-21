@@ -1,5 +1,5 @@
 /*! 
-jasmine-tree 1.0 2017-12-16T11:17:37.978Z
+jasmineTree 1.0 2017-12-21T06:06:16.367Z
 Copyright 2017 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

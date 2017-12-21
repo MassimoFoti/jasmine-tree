@@ -23,10 +23,10 @@ var CONST = {
 	DIST_FOLDER: "dist",
 	SCSS_FOLDER: "src/sass/*.scss",
 	MIN_SUFFIX: ".min.js",
-	CSS_SRC: "src/jasmine-tree.css",
-	JS_SRC: "src/jasmine-tree.js",
+	CSS_SRC: "src/jasmineTree.css",
+	JS_SRC: "src/jasmineTree.js",
 	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "lib/**/*", "src/**/*", "test/**/*"],
-	ARCHIVE_FILE: "jasmine-tree.zip",
+	ARCHIVE_FILE: "jasmineTree.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp("version = \"(\\d.\\d(.\\d)?)\";")
 };

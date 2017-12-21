@@ -5,7 +5,7 @@ if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
 
-/* istanbul ignore if */
+/* istanbul ignore else */
 if(typeof(window.jasmineTree) === "undefined"){
 	window.jasmineTree = {};
 }

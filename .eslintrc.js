@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global module */
 module.exports = {
 	root: true,
 
@@ -14,8 +14,6 @@ module.exports = {
 
 	// Globals
 	globals: {
-		// Libs
-		"Handlebars": false,
 		"jasmineTree": false
 	},
 

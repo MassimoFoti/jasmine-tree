@@ -1,19 +1,19 @@
 {
-  "name": "jasmine-tree",
+  "name": "jasmineTree",
   "description": "An add-on for Jasmine's HTML Reporter. With expand/collapse and cool CSS",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/MassimoFoti/jasmine-tree",
+  "homepage": "https://github.com/MassimoFoti/jasmineTree",
   "authors": [
     "Massimo Foti <massimo@massimocorner.com>",
     "Emily Meroni <emily.meroni@gmail.com>"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/MassimoFoti/jasmine-tree"
+    "url": "git://github.com/MassimoFoti/jasmineTree"
   },
   "main": [
-    "dist/jasmine-tree.js",
-    "dist/jasmine-tree.css"
+    "dist/jasmineTree.js",
+    "dist/jasmineTree.css"
   ],
   "dependencies": {
     "jasmine": ">=2",
@@ -25,7 +25,6 @@
   "ignore": [
     "**/.*",
     "gulpfile.js",
-    "Root.iml",
     "todo.txt",
     ".idea",
     "archive",

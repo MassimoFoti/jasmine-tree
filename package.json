@@ -1,7 +1,7 @@
 {
-	"name": "jasmine-tree",
+	"name": "jasmineTree",
 	"license": "Apache-2.0",
-	"homepage": "https://github.com/MassimoFoti/jasmine-tree",
+	"homepage": "https://github.com/MassimoFoti/jasmineTree",
 	"author": {
 		"name": "Massimo Foti",
 		"email": "massimo@massimocorner.com",
@@ -15,7 +15,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/MassimoFoti/jasmine-tree"
+		"url": "https://github.com/MassimoFoti/jasmineTree"
 	},
 	"devDependencies": {
 		"gulp": "~3.9.0",
