@@ -4,4 +4,4 @@
 
 	This requires a different configuration for fixtures compared to the HTML runner
  */
-jasmine.getFixtures().fixturesPath = "base/test/fixtures";
+var FIXTURES_BASE_PATH = "base/test/fixtures";

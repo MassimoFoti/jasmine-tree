@@ -1,11 +1,15 @@
-"use strict";
-
 describe("jasmineTree", function(){
+
+	"use strict";
 
 	var CONST;
 	beforeEach(function(){
 
-		loadFixtures("tree.htm");
+		jasmineFixtures.setup({
+			basePath: FIXTURES_BASE_PATH
+		});
+
+		jasmineFixtures.loadHTML("tree.htm");
 
 		CONST = {
 			CSS_CLASSES: {

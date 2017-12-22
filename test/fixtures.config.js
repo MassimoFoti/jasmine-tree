@@ -1,1 +1,1 @@
-jasmine.getFixtures().fixturesPath = "fixtures";
+var FIXTURES_BASE_PATH = "fixtures";
