@@ -237,7 +237,7 @@ describe("jasmineTree", function(){
 		describe(".hide()", function(){
 			it("Hide the suite node", function(){
 				suite.hide();
-				expect(suiteNode).toBeHidden();
+				expect(suiteNode).not.toBeVisible();
 			});
 		});
 

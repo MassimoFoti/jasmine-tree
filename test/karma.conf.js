@@ -14,10 +14,13 @@ module.exports = function(config) {
 			// Libs
 			"lib/jquery/jquery.min.js",
 
-			// Jasmine libs and configuration
-			"test/lib/jasmine/jasmine-jquery.js",
+			// Jasmine libs
+			"test/lib/jasmine/jasmineFixtures.min.js",
+			"test/lib/jasmine/jasmineMatchers.min.js",
 			"dist/jasmine-tree.min.js",
 			"dist/jasmine-tree.css",
+
+			// Config
 			"test/fixtures.karma.config.js",
 
 			// Source files
