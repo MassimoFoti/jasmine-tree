@@ -5,10 +5,6 @@ describe("jasmineTree", function(){
 	var CONST;
 	beforeEach(function(){
 
-		jasmineFixtures.setup({
-			basePath: FIXTURES_BASE_PATH
-		});
-
 		jasmineFixtures.loadHTML("tree.htm");
 
 		CONST = {
