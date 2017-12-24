@@ -7,3 +7,9 @@ EMILY:
 MASSIMO:
 
 - Add search box with auto-suggest
+
+
+Version 2.0
+
+- Drop support for IE 9/10
+- Use const/let and Map
