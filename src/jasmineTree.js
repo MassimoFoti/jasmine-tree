@@ -50,7 +50,12 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.getSpecFilter = function(){
 		var match = CONST.FILTER_REGEXP.exec(window.location.search);
-		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+		if(match !== null) {
+			var filter = decodeURIComponent(match[1].replace(/\+/g, " "));
+			if(filter !== "") {
+				return filter;
+			}
+		}
 	};
 
 	/**
@@ -109,7 +114,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.filterSpec = function(){
 		var filter = jasmineTree.getSpecFilter();
-		if(filter === null){
+		if(filter === undefined){
 			return;
 		}
 		// We have a filter. First collapse all
