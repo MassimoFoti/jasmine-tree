@@ -45,14 +45,16 @@ if(typeof(window.jasmineTree) === "undefined"){
 	var rootSuites = [];
 
 	/**
-	 * Returns the value of the "spec" parameter in the querystring. Null if it's not specified
-	 * @return {null|String}
+	 * Returns the value of the "spec" parameter in the given string. Undefined if it's not specified
+	 * @param {String} searchStr
+	 * @return {undefined|String}
 	 */
-	jasmineTree.getSpecFilter = function(){
-		var match = CONST.FILTER_REGEXP.exec(window.location.search);
-		if(match !== null) {
+	jasmineTree.getSpecFilter = function(searchStr){
+		var match = CONST.FILTER_REGEXP.exec(searchStr);
+		if(match !== null){
 			var filter = decodeURIComponent(match[1].replace(/\+/g, " "));
-			if(filter !== "") {
+			/* istanbul ignore else */
+			if(filter !== ""){
 				return filter;
 			}
 		}
@@ -113,7 +115,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Check the querystring and expand/collapse suites based on filter criteria (if any)
 	 */
 	jasmineTree.filterSpec = function(){
-		var filter = jasmineTree.getSpecFilter();
+		var filter = jasmineTree.getSpecFilter(window.location.search);
 		if(filter === undefined){
 			return;
 		}

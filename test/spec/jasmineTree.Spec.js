@@ -52,11 +52,13 @@ describe("jasmineTree", function(){
 				jasmineTree.init();
 				expect(jasmineTree.addRootClass).toHaveBeenCalled();
 			});
+
 			it(".addToolbar()", function(){
 				spyOn(jasmineTree, "addToolbar");
 				jasmineTree.init();
 				expect(jasmineTree.addToolbar).toHaveBeenCalled();
 			});
+
 			it(".filterSpec()", function(){
 				spyOn(jasmineTree, "filterSpec");
 				jasmineTree.init();
@@ -67,13 +69,16 @@ describe("jasmineTree", function(){
 	});
 
 	describe(".addRootClass()", function(){
+
 		it("Associate the root element to the 'jasmine-tree-summary' CSS class", function(){
 			jasmineTree.addRootClass();
 			expect(jQuery(CONST.SELECTORS.SUMMARY)).toHaveClass(CONST.CSS_CLASSES.SUMMARY);
 		});
+
 	});
 
 	describe(".addToolbar()", function(){
+
 		it("Add the toolbar element to the DOM", function(){
 			expect(jQuery(CONST.SELECTORS.TOOLBAR).length).toEqual(0);
 			jasmineTree.addToolbar();
@@ -81,35 +86,42 @@ describe("jasmineTree", function(){
 		});
 
 		describe("The toolbar contains:", function(){
+
 			it("Two buttons", function(){
 				jasmineTree.addToolbar();
 				expect(jQuery(CONST.SELECTORS.BUTTON).length).toEqual(2);
 			});
+
 			it("The first calls .collapseAll()", function(){
 				spyOn(jasmineTree, "collapseAll");
 				jasmineTree.addToolbar();
 				jQuery(CONST.SELECTORS.BUTTON)[0].click();
 				expect(jasmineTree.collapseAll).toHaveBeenCalled();
 			});
+
 			it("The second calls .expandAll()", function(){
 				spyOn(jasmineTree, "expandAll");
 				jasmineTree.addToolbar();
 				jQuery(CONST.SELECTORS.BUTTON)[1].click();
 				expect(jasmineTree.expandAll).toHaveBeenCalled();
 			});
+
 		});
 	});
 
 	describe(".collapseAll()", function(){
+
 		it("Collapse all the suite's nodes", function(){
 			jasmineTree.init();
 			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
 			jasmineTree.collapseAll();
 			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(0);
 		});
+
 	});
 
 	describe(".expandAll()", function(){
+
 		it("Expand all the suite's nodes", function(){
 			jasmineTree.init();
 			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
@@ -118,34 +130,56 @@ describe("jasmineTree", function(){
 			jasmineTree.expandAll();
 			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
 		});
+
 	});
 
+	describe(".getSpecFilter()", function(){
+
+		it("Returns the value of the 'spec' parameter in the given string", function(){
+			expect(jasmineTree.getSpecFilter("?spec=test")).toEqual("test");
+			expect(jasmineTree.getSpecFilter("?something=true&spec=test")).toEqual("test");
+		});
+
+		it("Returns undefined if 'spec' is not available inside in the given string", function(){
+			expect(jasmineTree.getSpecFilter("")).toBeUndefined();
+			expect(jasmineTree.getSpecFilter("?something=true")).toBeUndefined();
+		});
+
+	});
 
 	describe(".filterSpec()", function(){
 
 		describe("If there is no 'spec' entry in the querystring:", function(){
+
 			it("Does nothing", function(){
 				spyOn(jasmineTree, "collapseAll");
 				jasmineTree.filterSpec();
 				expect(jasmineTree.collapseAll).not.toHaveBeenCalled();
 			});
+
 		});
+
 		describe("Else:", function(){
 
 			describe("First:", function(){
+
 				it("Calls .collapseAll()", function(){
 					spyOn(jasmineTree, "getSpecFilter").and.returnValue("luga.form");
 					spyOn(jasmineTree, "collapseAll");
 					jasmineTree.filterSpec();
 					expect(jasmineTree.collapseAll).toHaveBeenCalled();
 				});
+
 			});
+
 			describe("Then::", function(){
+
 				it("Expand the matching suite", function(){
 					spyOn(jasmineTree, "getSpecFilter").and.returnValue("luga.form");
 					jasmineTree.init();
 					expect(jQuery(CONST.SELECTORS.TEST_NODE)).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 				});
+
 			});
 
 		});
@@ -211,37 +245,47 @@ describe("jasmineTree", function(){
 		});
 
 		describe(".collapse()", function(){
+
 			it("Collapse the suite node", function(){
 				suite.collapse();
 				expect(suiteNode).not.toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 			});
+
 		});
 
 		describe(".expand()", function(){
+
 			it("Expand the suite node", function(){
 				suite.expand();
 				expect(suiteNode).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 			});
+
 		});
 
 		describe(".getPath()", function(){
+
 			it("Return the full path", function(){
 				expect(jQuery.trim(suite.getPath())).toEqual("luga.form");
 			});
+
 		});
 
 		describe(".hide()", function(){
+
 			it("Hide the suite node", function(){
 				suite.hide();
 				expect(suiteNode).not.toBeVisible();
 			});
+
 		});
 
 		describe(".show()", function(){
+
 			it("Makes the suite node visible", function(){
 				suite.show();
 				expect(suiteNode).toBeVisible();
 			});
+
 		});
 
 	});
