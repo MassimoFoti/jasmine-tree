@@ -8,7 +8,8 @@ module.exports = {
 	// Default environments
 	env: {
 		es6: true,
-		browser: true
+		browser: true,
+		jasmine: true
 	},
 
 	// Globals

@@ -1,10 +1,3 @@
-/* global jasmine */
-
-/* istanbul ignore if */
-if(typeof(jQuery) === "undefined"){
-	throw("Unable to find jQuery");
-}
-
 /* istanbul ignore else */
 if(typeof(window.jasmineTree) === "undefined"){
 	window.jasmineTree = {};
@@ -13,7 +6,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 (function(){
 	"use strict";
 
-	jasmineTree.version = "1.0";
+	jasmineTree.version = "2.0";
 
 	const CONST = {
 		CSS_CLASSES: {
@@ -90,25 +83,35 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.addToolbar = function(){
 
-		const toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
-		const collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
-		toolbar.append(collapse);
-		const separator = jQuery("<span></span>").text(CONST.TEXT.SEPARATOR);
-		toolbar.append(separator);
-		const expand = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.EXPAND);
-		toolbar.append(expand);
+		const toolbar = document.createElement("div");
+		toolbar.classList.add(CONST.CSS_CLASSES.TOOLBAR);
 
-		collapse.click(function(event){
+		const collapse = document.createElement("span");
+		collapse.classList.add(CONST.CSS_CLASSES.BUTTON);
+		collapse.textContent = CONST.TEXT.COLLAPSE;
+		toolbar.appendChild(collapse);
+
+		const separator = document.createElement("span");
+		separator.textContent = CONST.TEXT.SEPARATOR;
+		toolbar.appendChild(separator);
+
+		const expand = document.createElement("span");
+		expand.classList.add(CONST.CSS_CLASSES.BUTTON);
+		expand.textContent = CONST.TEXT.EXPAND;
+		toolbar.appendChild(expand);
+
+		collapse.addEventListener("click", function(event){
 			event.preventDefault();
 			jasmineTree.collapseAll();
 		});
 
-		expand.click(function(event){
+		expand.addEventListener("click", function(event){
 			event.preventDefault();
 			jasmineTree.expandAll();
 		});
 
-		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
+		const summaryNode = document.querySelector(CONST.SELECTORS.SUMMARY);
+		summaryNode.parentNode.insertBefore(toolbar, summaryNode);
 	};
 
 	/**

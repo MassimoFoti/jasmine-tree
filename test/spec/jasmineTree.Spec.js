@@ -2,7 +2,7 @@ describe("jasmineTree", function(){
 
 	"use strict";
 
-	var CONST;
+	let CONST;
 	beforeEach(function(){
 
 		jasmineFixtures.loadHTML("tree.htm");
@@ -24,10 +24,6 @@ describe("jasmineTree", function(){
 			}
 		};
 
-	});
-
-	it("Requires jQuery in order to work", function(){
-		expect(jQuery).toBeDefined();
 	});
 
 	it("Lives inside its own namespace", function(){
@@ -82,29 +78,29 @@ describe("jasmineTree", function(){
 	describe(".addToolbar()", function(){
 
 		it("Add the toolbar element to the DOM", function(){
-			expect(jQuery(CONST.SELECTORS.TOOLBAR).length).toEqual(0);
+			expect(document.querySelectorAll(CONST.SELECTORS.TOOLBAR).length).toEqual(0);
 			jasmineTree.addToolbar();
-			expect(jQuery(CONST.SELECTORS.TOOLBAR).length).toEqual(1);
+			expect(document.querySelectorAll(CONST.SELECTORS.TOOLBAR).length).toEqual(1);
 		});
 
 		describe("The toolbar contains:", function(){
 
 			it("Two buttons", function(){
 				jasmineTree.addToolbar();
-				expect(jQuery(CONST.SELECTORS.BUTTON).length).toEqual(2);
+				expect(document.querySelectorAll(CONST.SELECTORS.BUTTON).length).toEqual(2);
 			});
 
 			it("The first calls .collapseAll()", function(){
 				spyOn(jasmineTree, "collapseAll");
 				jasmineTree.addToolbar();
-				jQuery(CONST.SELECTORS.BUTTON)[0].click();
+				document.querySelectorAll(CONST.SELECTORS.BUTTON)[0].click();
 				expect(jasmineTree.collapseAll).toHaveBeenCalled();
 			});
 
 			it("The second calls .expandAll()", function(){
 				spyOn(jasmineTree, "expandAll");
 				jasmineTree.addToolbar();
-				jQuery(CONST.SELECTORS.BUTTON)[1].click();
+				document.querySelectorAll(CONST.SELECTORS.BUTTON)[1].click();
 				expect(jasmineTree.expandAll).toHaveBeenCalled();
 			});
 
@@ -115,9 +111,9 @@ describe("jasmineTree", function(){
 
 		it("Collapse all the suite's nodes", function(){
 			jasmineTree.init();
-			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
+			expect(document.querySelectorAll(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
 			jasmineTree.collapseAll();
-			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(0);
+			expect(document.querySelectorAll(CONST.SELECTORS.NODE_OPENED).length).toEqual(0);
 		});
 
 	});
@@ -126,11 +122,11 @@ describe("jasmineTree", function(){
 
 		it("Expand all the suite's nodes", function(){
 			jasmineTree.init();
-			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
+			expect(document.querySelectorAll(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
 			jasmineTree.collapseAll();
-			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(0);
+			expect(document.querySelectorAll(CONST.SELECTORS.NODE_OPENED).length).toEqual(0);
 			jasmineTree.expandAll();
-			expect(jQuery(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
+			expect(document.querySelectorAll(CONST.SELECTORS.NODE_OPENED).length).toEqual(45);
 		});
 
 	});
@@ -190,7 +186,7 @@ describe("jasmineTree", function(){
 
 	describe(".Suite", function(){
 
-		var suiteNode, suite;
+		let suiteNode, suite;
 		beforeEach(function(){
 
 			suiteNode = document.getElementById(CONST.ID.TEST_NODE);
