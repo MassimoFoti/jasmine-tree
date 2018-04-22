@@ -40,7 +40,7 @@ describe("jasmineTree", function(){
 
 		it("Is an utility method to bootstrap the GUI", function(){
 			expect(jasmineTree.Suite).toBeDefined();
-			expect($.isFunction(jasmineTree.Suite)).toBeTruthy();
+			expect(typeof jasmineTree.Suite).toEqual("function");
 		});
 
 		describe("Invokes:", function(){
@@ -70,7 +70,7 @@ describe("jasmineTree", function(){
 
 		it("Associate the root element to the 'jasmine-tree-summary' CSS class", function(){
 			jasmineTree.addRootClass();
-			expect(jQuery(CONST.SELECTORS.SUMMARY)).toHaveClass(CONST.CSS_CLASSES.SUMMARY);
+			expect(document.querySelector(CONST.SELECTORS.SUMMARY)).toHaveClass(CONST.CSS_CLASSES.SUMMARY);
 		});
 
 	});
@@ -198,7 +198,7 @@ describe("jasmineTree", function(){
 
 		it("Is the constructor for the object that get attached to each suite", function(){
 			expect(jasmineTree.Suite).toBeDefined();
-			expect($.isFunction(jasmineTree.Suite)).toBeTruthy();
+			expect(typeof  jasmineTree.Suite).toEqual("function");
 		});
 
 		it("Adds expand/collapse triggers to each suite", function(){
@@ -206,7 +206,7 @@ describe("jasmineTree", function(){
 		});
 
 		it("First click on the trigger collapse the suite, second click expand it", function(){
-			var triggerNode = suiteNode.querySelector(CONST.SELECTORS.TRIGGER);
+			const triggerNode = suiteNode.querySelector(CONST.SELECTORS.TRIGGER);
 			expect(suiteNode).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.click();
 			expect(suiteNode).not.toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
@@ -219,15 +219,15 @@ describe("jasmineTree", function(){
 			describe("Return true if:", function(){
 
 				it("The suite's name starts with the given string", function(){
-					expect(suite.containsPath("luga.form")).toBeTruthy();
+					expect(suite.containsPath("luga.form")).toEqual(true);
 				});
 
 				it("A child suite's name starts with the given string", function(){
-					expect(suite.containsPath("luga.form .toQueryString()")).toBeTruthy();
+					expect(suite.containsPath("luga.form .toQueryString()")).toEqual(true);
 				});
 
 				it("A child spec's name starts with the given string", function(){
-					expect(suite.containsPath("luga.form .toQueryString() Ignores unsuccessful fields")).toBeTruthy();
+					expect(suite.containsPath("luga.form .toQueryString() Ignores unsuccessful fields")).toEqual(true);
 				});
 
 			});
@@ -235,7 +235,7 @@ describe("jasmineTree", function(){
 			describe("Return false:", function(){
 
 				it("Otherwise", function(){
-					expect(suite.containsPath("missing")).toBeFalsy();
+					expect(suite.containsPath("missing")).toEqual(false);
 				});
 
 			});
@@ -263,7 +263,7 @@ describe("jasmineTree", function(){
 		describe(".getPath()", function(){
 
 			it("Return the full path", function(){
-				expect(jQuery.trim(suite.getPath())).toEqual("luga.form");
+				expect(suite.getPath().trim()).toEqual("luga.form");
 			});
 
 		});
@@ -272,7 +272,7 @@ describe("jasmineTree", function(){
 
 			it("Hide the suite node", function(){
 				suite.hide();
-				expect(suiteNode).not.toBeVisible();
+				expect(suiteNode.style.display).toEqual("none");
 			});
 
 		});
@@ -281,7 +281,7 @@ describe("jasmineTree", function(){
 
 			it("Makes the suite node visible", function(){
 				suite.show();
-				expect(suiteNode).toBeVisible();
+				expect(suiteNode.style.display).toEqual("block");
 			});
 
 		});

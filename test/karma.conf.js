@@ -6,19 +6,15 @@ No need to use multiple browsers
 */
 module.exports = function(config) {
 	"use strict";
+
 	config.set({
 		basePath: "../",
 		browsers: ["Chrome"],
 		frameworks: ["jasmine"],
 		files: [
-			// Libs
-			"lib/jquery/jquery.min.js",
-
 			// Jasmine libs
+			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/jasmineFixtures.min.js",
-			"test/lib/jasmine/jasmineMatchers.min.js",
-			"dist/jasmine-tree.min.js",
-			"dist/jasmine-tree.css",
 
 			// Config
 			"test/fixtures.karma.config.js",
@@ -58,4 +54,5 @@ module.exports = function(config) {
 		// enable / disable watching file and executing tests whenever any file changes
 		autoWatch: true
 	});
+
 };

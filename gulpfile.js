@@ -4,36 +4,38 @@
 
 "use strict";
 
-var gulp = require("gulp");
-var changed = require("gulp-changed");
-var fs = require("fs");
-var header = require("gulp-header");
-var rename = require("gulp-rename");
-var runSequence = require("run-sequence");
-var sass = require("gulp-sass");
-var sourcemaps = require("gulp-sourcemaps");
-var uglify = require("gulp-uglify");
-var zip = require("gulp-zip");
-var karmaServer = require("karma").Server;
+const gulp = require("gulp");
+const changed = require("gulp-changed");
+const fs = require("fs");
+const header = require("gulp-header");
+const rename = require("gulp-rename");
+const runSequence = require("run-sequence");
+const sass = require("gulp-sass");
+const sourcemaps = require("gulp-sourcemaps");
+const composer = require("gulp-uglify/composer");
+const uglifyes = require("uglify-es");
+const uglify = composer(uglifyes, console);
+const zip = require("gulp-zip");
+const karmaServer = require("karma").Server;
 
-var pkg = require("./package.json");
+const pkg = require("./package.json");
 
-var CONST = {
+const CONST = {
 	SRC_FOLDER: "src",
 	DIST_FOLDER: "dist",
 	SCSS_FOLDER: "src/sass/*.scss",
 	MIN_SUFFIX: ".min.js",
 	CSS_SRC: "src/jasmineTree.css",
 	JS_SRC: "src/jasmineTree.js",
-	FOLDERS_TO_ARCHIVE: ["LICENSE", "README.md", "dist/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	FOLDERS_TO_ARCHIVE: ["LICENSE", "README.md", "dist/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "jasmineTree.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp("version = \"(\\d.\\d(.\\d)?)\";")
 };
 
 function assembleBanner(version){
-	var now = new Date();
-	var banner = [
+	const now = new Date();
+	const banner = [
 		"/*! ",
 		pkg.name + " " + version + " " + now.toISOString(),
 		pkg.homepage,
@@ -45,9 +47,9 @@ function assembleBanner(version){
 }
 
 function getJsVersion(){
-	var buffer = fs.readFileSync(CONST.JS_SRC);
-	var fileStr = buffer.toString("utf8", 0, buffer.length);
-	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
+	const buffer = fs.readFileSync(CONST.JS_SRC);
+	const fileStr = buffer.toString("utf8", 0, buffer.length);
+	const version = CONST.VERSION_PATTERN.exec(fileStr)[1];
 	return version;
 }
 
@@ -59,7 +61,7 @@ gulp.task("coverage", function(done){
 });
 
 gulp.task("js", function(){
-	var jsVersion = getJsVersion();
+	const jsVersion = getJsVersion();
 	return gulp.src(CONST.JS_SRC)
 		.pipe(sourcemaps.init())
 		// The "changed" task needs to know the destination directory
@@ -82,7 +84,7 @@ gulp.task("js", function(){
 });
 
 gulp.task("scss", function(){
-	var jsVersion = getJsVersion();
+	const jsVersion = getJsVersion();
 	gulp.src(CONST.SCSS_FOLDER)
 		.pipe(sourcemaps.init())
 		.pipe(sass.sync().on("error", sass.logError))

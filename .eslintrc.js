@@ -54,7 +54,7 @@ module.exports = {
 		"no-shadow": ["warn"],
 		"no-ternary": ["warn"],
 		"no-undef": ["error"],
-		"no-underscore-dangle": ["error"],
+		"no-underscore-dangle": ["warn"],
 		"no-unused-vars": ["error", {"vars": "all", "args": "none", "ignoreRestSiblings": false}],
 		"no-void": ["error"],
 		"no-with": ["error"],

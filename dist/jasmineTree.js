@@ -1,16 +1,9 @@
 /*! 
-jasmineTree 1.0 2018-04-22T09:43:34.760Z
+jasmineTree 2.0 2018-04-22T15:24:57.998Z
 https://github.com/MassimoFoti/jasmineTree
 Copyright 2015-2018 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
-/* global jasmine */
-
-/* istanbul ignore if */
-if(typeof(jQuery) === "undefined"){
-	throw("Unable to find jQuery");
-}
-
 /* istanbul ignore else */
 if(typeof(window.jasmineTree) === "undefined"){
 	window.jasmineTree = {};
@@ -19,9 +12,9 @@ if(typeof(window.jasmineTree) === "undefined"){
 (function(){
 	"use strict";
 
-	jasmineTree.version = "1.0";
+	jasmineTree.version = "2.0";
 
-	var CONST = {
+	const CONST = {
 		CSS_CLASSES: {
 			SUMMARY: "jasmine-tree-summary",
 			TRIGGER: "jasmine-tree-trigger",
@@ -33,9 +26,9 @@ if(typeof(window.jasmineTree) === "undefined"){
 			FIRST_CHILD: ":first-child",
 			SUMMARY: ".jasmine-summary",
 			ROOT_SUITE: ".jasmine-summary > .jasmine-suite",
-			NODE_TITLE: "> li.jasmine-suite-detail",
-			NODE_SPECS: "> ul.jasmine-specs",
-			NODE_SUITES: "> ul.jasmine-suite"
+			NODE_TITLE: "li.jasmine-suite-detail",
+			NODE_SPECS: "ul.jasmine-specs",
+			NODE_SUITES: "ul.jasmine-suite"
 		},
 		TEXT: {
 			COLLAPSE: "Collapse All",
@@ -48,17 +41,19 @@ if(typeof(window.jasmineTree) === "undefined"){
 	};
 
 	/** @type {Array.<jasmineTree.Suite>} */
-	var rootSuites = [];
+	const rootSuites = [];
 
 	/**
-	 * Returns the value of the "spec" parameter in the querystring. Null if it's not specified
-	 * @return {null|String}
+	 * Returns the value of the "spec" parameter in the given string. Undefined if it's not specified
+	 * @param {String} searchStr
+	 * @return {undefined|String}
 	 */
-	jasmineTree.getSpecFilter = function(){
-		var match = CONST.FILTER_REGEXP.exec(window.location.search);
-		if(match !== null) {
-			var filter = decodeURIComponent(match[1].replace(/\+/g, " "));
-			if(filter !== "") {
+	jasmineTree.getSpecFilter = function(searchStr){
+		const match = CONST.FILTER_REGEXP.exec(searchStr);
+		if(match !== null){
+			const filter = decodeURIComponent(match[1].replace(/\+/g, " "));
+			/* istanbul ignore else */
+			if(filter !== ""){
 				return filter;
 			}
 		}
@@ -68,7 +63,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Collapse all the suites
 	 */
 	jasmineTree.collapseAll = function(){
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			rootSuites[i].collapse();
 		}
 	};
@@ -77,7 +72,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Expand all the suites
 	 */
 	jasmineTree.expandAll = function(){
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			rootSuites[i].expand();
 		}
 	};
@@ -86,7 +81,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Add a CSS class to the summary to enable more specific CSS selectors
 	 */
 	jasmineTree.addRootClass = function(){
-		jQuery(CONST.SELECTORS.SUMMARY).addClass(CONST.CSS_CLASSES.SUMMARY);
+		document.querySelector(CONST.SELECTORS.SUMMARY).classList.add(CONST.CSS_CLASSES.SUMMARY);
 	};
 
 	/**
@@ -94,39 +89,49 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.addToolbar = function(){
 
-		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
-		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
-		toolbar.append(collapse);
-		var separator = jQuery("<span></span>").text(CONST.TEXT.SEPARATOR);
-		toolbar.append(separator);
-		var expand = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.EXPAND);
-		toolbar.append(expand);
+		const toolbar = document.createElement("div");
+		toolbar.classList.add(CONST.CSS_CLASSES.TOOLBAR);
 
-		collapse.click(function(event){
+		const collapse = document.createElement("span");
+		collapse.classList.add(CONST.CSS_CLASSES.BUTTON);
+		collapse.textContent = CONST.TEXT.COLLAPSE;
+		toolbar.appendChild(collapse);
+
+		const separator = document.createElement("span");
+		separator.textContent = CONST.TEXT.SEPARATOR;
+		toolbar.appendChild(separator);
+
+		const expand = document.createElement("span");
+		expand.classList.add(CONST.CSS_CLASSES.BUTTON);
+		expand.textContent = CONST.TEXT.EXPAND;
+		toolbar.appendChild(expand);
+
+		collapse.addEventListener("click", function(event){
 			event.preventDefault();
 			jasmineTree.collapseAll();
 		});
 
-		expand.click(function(event){
+		expand.addEventListener("click", function(event){
 			event.preventDefault();
 			jasmineTree.expandAll();
 		});
 
-		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
+		const summaryNode = document.querySelector(CONST.SELECTORS.SUMMARY);
+		summaryNode.parentNode.insertBefore(toolbar, summaryNode);
 	};
 
 	/**
 	 * Check the querystring and expand/collapse suites based on filter criteria (if any)
 	 */
 	jasmineTree.filterSpec = function(){
-		var filter = jasmineTree.getSpecFilter();
+		const filter = jasmineTree.getSpecFilter(window.location.search);
 		if(filter === undefined){
 			return;
 		}
 		// We have a filter. First collapse all
 		jasmineTree.collapseAll();
 		// Then expand only the suites that match
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			if(rootSuites[i].containsPath(filter) === true){
 				rootSuites[i].expand();
 			}
@@ -136,7 +141,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	/**
 	 * @typedef {Object} jasmineTree.Suite.options
 	 *
-	 * @property {jQuery} rootNode
+	 * @property {HTMLElement} rootNode
 	 * @property {String} rootPath
 	 */
 
@@ -146,47 +151,68 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * @constructor
 	 */
 	jasmineTree.Suite = function(options){
-		var config = {
-			rootNode: null,
-			rootPath: ""
+		/**
+		 * @type {jasmineTree.Suite.options}
+		 */
+		const config = {
+			rootNode: options.rootNode,
+			rootPath: options.rootPath
 		};
-		jQuery.extend(config, options);
+		if(config.rootPath === undefined){
+			config.rootPath = "";
+		}
 
 		/** @type  {jasmineTree.Suite} */
-		var self = this;
+		const self = this;
 
 		/** @type {Array.<jasmineTree.Suite>} */
-		var suites = [];
+		const suites = [];
 		/** @type {Array.<jQuery>} */
-		var specs = [];
+		const specs = [];
 
-		var fullPath = "";
-		var expanded = true;
-		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
+		let fullPath = "";
+		let expanded = true;
 
-		var init = function(){
-			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
+		const triggerNode = document.createElement("a");
+		triggerNode.classList.add(CONST.CSS_CLASSES.TRIGGER);
+		triggerNode.textContent = CONST.TEXT.MINUS;
 
-			var titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
+		const init = function(){
+			config.rootNode.classList.add(CONST.CSS_CLASSES.NODE_OPENED);
 
-			fullPath = config.rootPath + jQuery.trim(titleNode.text());
-			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
-
-			config.rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
-				specs.push(jQuery(item));
+			let titleNode;
+			Array.prototype.slice.call(config.rootNode.children).forEach(function(item){
+				if(nodeMatches(item, CONST.SELECTORS.NODE_TITLE) === true){
+					titleNode = item;
+				}
 			});
-			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
-				var childSuite = new jasmineTree.Suite({
-					rootNode: jQuery(item),
-					rootPath: fullPath + " "
-				});
-				suites.push(childSuite);
+
+			fullPath = config.rootPath + titleNode.textContent.trim();
+
+			const linkNode = titleNode.querySelector(CONST.SELECTORS.FIRST_CHILD);
+			linkNode.parentNode.insertBefore(triggerNode, linkNode);
+
+			Array.prototype.slice.call(config.rootNode.children).forEach(function(item){
+				if(nodeMatches(item, CONST.SELECTORS.NODE_SPECS) === true){
+					specs.push(item);
+				}
 			});
+
+			Array.prototype.slice.call(config.rootNode.children).forEach(function(item){
+				if(nodeMatches(item, CONST.SELECTORS.NODE_SUITES) === true){
+					const childSuite = new jasmineTree.Suite({
+						rootNode: item,
+						rootPath: fullPath + " "
+					});
+					suites.push(childSuite);
+				}
+			});
+
 			attachEvents();
 		};
 
-		var attachEvents = function(){
-			triggerNode.click(function(event){
+		const attachEvents = function(){
+			triggerNode.addEventListener("click", function(event){
 				event.preventDefault();
 				if(expanded === true){
 					self.collapse();
@@ -197,7 +223,23 @@ if(typeof(window.jasmineTree) === "undefined"){
 			});
 		};
 
-		var startsWith = function(str, subStr){
+		/**
+		 * Equalize element.matches across browsers
+		 * @param {HTMLElement} node
+		 * @param {String} selector
+		 * @return {Boolean}
+		 */
+		const nodeMatches = function(node, selector){
+			let methodName = "matches";
+			// Deal with IE11 without polyfills
+			/* istanbul ignore next */
+			if(node.matches === undefined && node.msMatchesSelector !== undefined){
+				methodName = "msMatchesSelector";
+			}
+			return node[methodName](selector);
+		};
+
+		const startsWith = function(str, subStr){
 			return (str.substring(0, subStr.length) === subStr);
 		};
 
@@ -216,14 +258,14 @@ if(typeof(window.jasmineTree) === "undefined"){
 				return true;
 			}
 			// Search inside child specs
-			for(var j = 0; j < specs.length; j++){
-				var specPath = self.getPath() + " " + jQuery.trim(specs[j].text());
+			for(let j = 0; j < specs.length; j++){
+				const specPath = self.getPath() + " " + specs[j].textContent.trim();
 				if(specPath === path){
 					return true;
 				}
 			}
 			// Search inside child suites
-			for(var i = 0; i < suites.length; i++){
+			for(let i = 0; i < suites.length; i++){
 				if(suites[i].containsPath(path) === true){
 					return true;
 				}
@@ -232,35 +274,35 @@ if(typeof(window.jasmineTree) === "undefined"){
 		};
 
 		this.show = function(){
-			config.rootNode.show();
+			config.rootNode.style.display = "block";
 		};
 
 		this.hide = function(){
-			config.rootNode.hide();
+			config.rootNode.style.display = "none";
 		};
 
 		this.collapse = function(){
-			config.rootNode.removeClass(CONST.CSS_CLASSES.NODE_OPENED);
-			triggerNode.text(CONST.TEXT.PLUS);
-			for(var i = 0; i < suites.length; i++){
+			config.rootNode.classList.remove(CONST.CSS_CLASSES.NODE_OPENED);
+			triggerNode.textContent = CONST.TEXT.PLUS;
+			for(let i = 0; i < suites.length; i++){
 				suites[i].collapse();
 				suites[i].hide();
 			}
-			for(var j = 0; j < specs.length; j++){
-				specs[j].hide();
+			for(let j = 0; j < specs.length; j++){
+				specs[j].style.display = "none";
 			}
 			expanded = false;
 		};
 
 		this.expand = function(){
-			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
-			triggerNode.text(CONST.TEXT.MINUS);
-			for(var i = 0; i < suites.length; i++){
+			config.rootNode.classList.add(CONST.CSS_CLASSES.NODE_OPENED);
+			triggerNode.textContent = CONST.TEXT.MINUS;
+			for(let i = 0; i < suites.length; i++){
 				suites[i].expand();
 				suites[i].show();
 			}
-			for(var j = 0; j < specs.length; j++){
-				specs[j].show();
+			for(let j = 0; j < specs.length; j++){
+				specs[j].style.display = "block";
 			}
 			expanded = true;
 		};
@@ -272,21 +314,26 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * This must be invoked after Jasmine finished executing
 	 */
 	jasmineTree.init = function(){
-		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
-			var suite = new jasmineTree.Suite({
-				rootNode: jQuery(item)
+
+		Array.prototype.slice.call(document.querySelectorAll(CONST.SELECTORS.ROOT_SUITE)).forEach(function(item){
+			const suite = new jasmineTree.Suite({
+				rootNode: item
 			});
 			rootSuites.push(suite);
 		});
+
 		jasmineTree.addRootClass();
 		jasmineTree.addToolbar();
 		jasmineTree.filterSpec();
 	};
 
-	jasmine.getEnv().addReporter({
-		jasmineDone: function(){
-			jasmineTree.init();
-		}
-	});
+	/* istanbul ignore next */
+	if(window.__karma__ === undefined){
+		jasmine.getEnv().addReporter({
+			jasmineDone: function(){
+				jasmineTree.init();
+			}
+		});
+	}
 
 }());

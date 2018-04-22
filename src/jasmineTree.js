@@ -226,6 +226,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 		const nodeMatches = function(node, selector){
 			let methodName = "matches";
 			// Deal with IE11 without polyfills
+			/* istanbul ignore next */
 			if(node.matches === undefined && node.msMatchesSelector !== undefined){
 				methodName = "msMatchesSelector";
 			}
@@ -320,10 +321,13 @@ if(typeof(window.jasmineTree) === "undefined"){
 		jasmineTree.filterSpec();
 	};
 
-	jasmine.getEnv().addReporter({
-		jasmineDone: function(){
-			jasmineTree.init();
-		}
-	});
+	/* istanbul ignore next */
+	if(window.__karma__ === undefined){
+		jasmine.getEnv().addReporter({
+			jasmineDone: function(){
+				jasmineTree.init();
+			}
+		});
+	}
 
 }());
