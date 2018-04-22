@@ -25,11 +25,11 @@ if(typeof(window.jasmineTree) === "undefined"){
 		},
 		SELECTORS: {
 			FIRST_CHILD: ":first-child",
-			SUMMARY: ".summary,.jasmine-summary",
-			ROOT_SUITE: ".summary > .suite,.jasmine-summary > .jasmine-suite",
-			NODE_TITLE: "> li.suite-detail,> li.jasmine-suite-detail",
-			NODE_SPECS: "> ul.specs,> ul.jasmine-specs",
-			NODE_SUITES: "> ul.suite,> ul.jasmine-suite"
+			SUMMARY: ".jasmine-summary",
+			ROOT_SUITE: ".jasmine-summary > .jasmine-suite",
+			NODE_TITLE: "> li.jasmine-suite-detail",
+			NODE_SPECS: "> ul.jasmine-specs",
+			NODE_SUITES: "> ul.jasmine-suite"
 		},
 		TEXT: {
 			COLLAPSE: "Collapse All",
