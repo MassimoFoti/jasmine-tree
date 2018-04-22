@@ -15,7 +15,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 
 	jasmineTree.version = "1.0";
 
-	var CONST = {
+	const CONST = {
 		CSS_CLASSES: {
 			SUMMARY: "jasmine-tree-summary",
 			TRIGGER: "jasmine-tree-trigger",
@@ -42,7 +42,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	};
 
 	/** @type {Array.<jasmineTree.Suite>} */
-	var rootSuites = [];
+	const rootSuites = [];
 
 	/**
 	 * Returns the value of the "spec" parameter in the given string. Undefined if it's not specified
@@ -50,9 +50,9 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * @return {undefined|String}
 	 */
 	jasmineTree.getSpecFilter = function(searchStr){
-		var match = CONST.FILTER_REGEXP.exec(searchStr);
+		const match = CONST.FILTER_REGEXP.exec(searchStr);
 		if(match !== null){
-			var filter = decodeURIComponent(match[1].replace(/\+/g, " "));
+			const filter = decodeURIComponent(match[1].replace(/\+/g, " "));
 			/* istanbul ignore else */
 			if(filter !== ""){
 				return filter;
@@ -64,7 +64,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Collapse all the suites
 	 */
 	jasmineTree.collapseAll = function(){
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			rootSuites[i].collapse();
 		}
 	};
@@ -73,7 +73,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Expand all the suites
 	 */
 	jasmineTree.expandAll = function(){
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			rootSuites[i].expand();
 		}
 	};
@@ -82,7 +82,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Add a CSS class to the summary to enable more specific CSS selectors
 	 */
 	jasmineTree.addRootClass = function(){
-		jQuery(CONST.SELECTORS.SUMMARY).addClass(CONST.CSS_CLASSES.SUMMARY);
+		document.querySelector(CONST.SELECTORS.SUMMARY).classList.add(CONST.CSS_CLASSES.SUMMARY);
 	};
 
 	/**
@@ -90,12 +90,12 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.addToolbar = function(){
 
-		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
-		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
+		const toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
+		const collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
 		toolbar.append(collapse);
-		var separator = jQuery("<span></span>").text(CONST.TEXT.SEPARATOR);
+		const separator = jQuery("<span></span>").text(CONST.TEXT.SEPARATOR);
 		toolbar.append(separator);
-		var expand = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.EXPAND);
+		const expand = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.EXPAND);
 		toolbar.append(expand);
 
 		collapse.click(function(event){
@@ -115,14 +115,14 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * Check the querystring and expand/collapse suites based on filter criteria (if any)
 	 */
 	jasmineTree.filterSpec = function(){
-		var filter = jasmineTree.getSpecFilter(window.location.search);
+		const filter = jasmineTree.getSpecFilter(window.location.search);
 		if(filter === undefined){
 			return;
 		}
 		// We have a filter. First collapse all
 		jasmineTree.collapseAll();
 		// Then expand only the suites that match
-		for(var i = 0; i < rootSuites.length; i++){
+		for(let i = 0; i < rootSuites.length; i++){
 			if(rootSuites[i].containsPath(filter) === true){
 				rootSuites[i].expand();
 			}
@@ -142,37 +142,40 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * @constructor
 	 */
 	jasmineTree.Suite = function(options){
-		var config = {
+		const config = {
 			rootNode: null,
 			rootPath: ""
 		};
 		jQuery.extend(config, options);
 
 		/** @type  {jasmineTree.Suite} */
-		var self = this;
+		const self = this;
 
 		/** @type {Array.<jasmineTree.Suite>} */
-		var suites = [];
+		const suites = [];
 		/** @type {Array.<jQuery>} */
-		var specs = [];
+		const specs = [];
 
-		var fullPath = "";
-		var expanded = true;
-		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
+		let fullPath = "";
+		let expanded = true;
+		const triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
-		var init = function(){
+		const init = function(){
 			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
 
-			var titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
+			const titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
 
 			fullPath = config.rootPath + jQuery.trim(titleNode.text());
 			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
 
-			config.rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
-				specs.push(jQuery(item));
+			const specNodes = Array.prototype.slice.call(config.rootNode[0].children).forEach(function(item){
+				if(nodeMatches(item, "ul.jasmine-specs") === true){
+					specs.push(item);
+				}
 			});
+
 			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
-				var childSuite = new jasmineTree.Suite({
+				const childSuite = new jasmineTree.Suite({
 					rootNode: jQuery(item),
 					rootPath: fullPath + " "
 				});
@@ -181,7 +184,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 			attachEvents();
 		};
 
-		var attachEvents = function(){
+		const attachEvents = function(){
 			triggerNode.click(function(event){
 				event.preventDefault();
 				if(expanded === true){
@@ -193,7 +196,22 @@ if(typeof(window.jasmineTree) === "undefined"){
 			});
 		};
 
-		var startsWith = function(str, subStr){
+		/**
+		 * Equalize element.matches across browsers
+		 * @param {HTMLElement} node
+		 * @param {String} selector
+		 * @return {Boolean}
+		 */
+		const nodeMatches = function(node, selector){
+			let methodName = "matches";
+			// Deal with IE11 without polyfills
+			if(node.matches === undefined && node.msMatchesSelector !== undefined){
+				methodName = "msMatchesSelector";
+			}
+			return node[methodName](selector);
+		};
+
+		const startsWith = function(str, subStr){
 			return (str.substring(0, subStr.length) === subStr);
 		};
 
@@ -212,14 +230,14 @@ if(typeof(window.jasmineTree) === "undefined"){
 				return true;
 			}
 			// Search inside child specs
-			for(var j = 0; j < specs.length; j++){
-				var specPath = self.getPath() + " " + jQuery.trim(specs[j].text());
+			for(let j = 0; j < specs.length; j++){
+				const specPath = self.getPath() + " " + specs[j].textContent.trim();
 				if(specPath === path){
 					return true;
 				}
 			}
 			// Search inside child suites
-			for(var i = 0; i < suites.length; i++){
+			for(let i = 0; i < suites.length; i++){
 				if(suites[i].containsPath(path) === true){
 					return true;
 				}
@@ -238,12 +256,12 @@ if(typeof(window.jasmineTree) === "undefined"){
 		this.collapse = function(){
 			config.rootNode.removeClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.text(CONST.TEXT.PLUS);
-			for(var i = 0; i < suites.length; i++){
+			for(let i = 0; i < suites.length; i++){
 				suites[i].collapse();
 				suites[i].hide();
 			}
-			for(var j = 0; j < specs.length; j++){
-				specs[j].hide();
+			for(let j = 0; j < specs.length; j++){
+				jQuery(specs[j]).hide();
 			}
 			expanded = false;
 		};
@@ -251,12 +269,12 @@ if(typeof(window.jasmineTree) === "undefined"){
 		this.expand = function(){
 			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.text(CONST.TEXT.MINUS);
-			for(var i = 0; i < suites.length; i++){
+			for(let i = 0; i < suites.length; i++){
 				suites[i].expand();
 				suites[i].show();
 			}
-			for(var j = 0; j < specs.length; j++){
-				specs[j].show();
+			for(let j = 0; j < specs.length; j++){
+				jQuery(specs[j]).show();
 			}
 			expanded = true;
 		};
@@ -268,8 +286,11 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * This must be invoked after Jasmine finished executing
 	 */
 	jasmineTree.init = function(){
-		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
-			var suite = new jasmineTree.Suite({
+
+		const rootNodes = Array.prototype.slice.call(document.querySelectorAll(CONST.SELECTORS.ROOT_SUITE));
+
+		rootNodes.forEach(function(item){
+			const suite = new jasmineTree.Suite({
 				rootNode: jQuery(item)
 			});
 			rootSuites.push(suite);
