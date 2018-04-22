@@ -12,13 +12,15 @@ describe("jasmineTree", function(){
 				SUMMARY: "jasmine-tree-summary",
 				NODE_OPENED: "jasmine-tree-opennode"
 			},
+			ID: {
+				TEST_NODE: "suite-suite19"
+			},
 			SELECTORS: {
 				BUTTON: ".jasmine-tree-button",
 				SUMMARY: ".summary,.jasmine-summary",
 				NODE_OPENED: ".jasmine-tree-opennode",
 				TOOLBAR: ".jasmine-tree-toolbar",
-				TRIGGER: ".jasmine-tree-trigger",
-				TEST_NODE: "#suite-suite19"
+				TRIGGER: ".jasmine-tree-trigger"
 			}
 		};
 
@@ -177,7 +179,7 @@ describe("jasmineTree", function(){
 				it("Expand the matching suite", function(){
 					spyOn(jasmineTree, "getSpecFilter").and.returnValue("luga.form");
 					jasmineTree.init();
-					expect(jQuery(CONST.SELECTORS.TEST_NODE)).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
+					expect(document.getElementById(CONST.ID.TEST_NODE)).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 				});
 
 			});
@@ -191,7 +193,7 @@ describe("jasmineTree", function(){
 		var suiteNode, suite;
 		beforeEach(function(){
 
-			suiteNode = jQuery(CONST.SELECTORS.TEST_NODE);
+			suiteNode = document.getElementById(CONST.ID.TEST_NODE);
 			suite = new jasmineTree.Suite({
 				rootNode: suiteNode
 			});
@@ -204,11 +206,11 @@ describe("jasmineTree", function(){
 		});
 
 		it("Adds expand/collapse triggers to each suite", function(){
-			expect(suiteNode.find(CONST.SELECTORS.TRIGGER).length).toEqual(10);
+			expect(suiteNode.querySelectorAll(CONST.SELECTORS.TRIGGER).length).toEqual(10);
 		});
 
 		it("First click on the trigger collapse the suite, second click expand it", function(){
-			var triggerNode = suiteNode.find(CONST.SELECTORS.TRIGGER)[0];
+			var triggerNode = suiteNode.querySelector(CONST.SELECTORS.TRIGGER);
 			expect(suiteNode).toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.click();
 			expect(suiteNode).not.toHaveClass(CONST.CSS_CLASSES.NODE_OPENED);
