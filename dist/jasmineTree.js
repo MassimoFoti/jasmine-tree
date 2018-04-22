@@ -1,6 +1,7 @@
 /*! 
-jasmineTree 1.0 2017-12-21T06:06:16.367Z
-Copyright 2017 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
+jasmineTree 1.0 2018-04-22T09:43:34.760Z
+https://github.com/MassimoFoti/jasmineTree
+Copyright 2015-2018 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* global jasmine */
@@ -10,7 +11,7 @@ if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
 
-/* istanbul ignore if */
+/* istanbul ignore else */
 if(typeof(window.jasmineTree) === "undefined"){
 	window.jasmineTree = {};
 }
@@ -30,11 +31,11 @@ if(typeof(window.jasmineTree) === "undefined"){
 		},
 		SELECTORS: {
 			FIRST_CHILD: ":first-child",
-			SUMMARY: ".summary,.jasmine-summary",
-			ROOT_SUITE: ".summary > .suite,.jasmine-summary > .jasmine-suite",
-			NODE_TITLE: "> li.suite-detail,> li.jasmine-suite-detail",
-			NODE_SPECS: "> ul.specs,> ul.jasmine-specs",
-			NODE_SUITES: "> ul.suite,> ul.jasmine-suite"
+			SUMMARY: ".jasmine-summary",
+			ROOT_SUITE: ".jasmine-summary > .jasmine-suite",
+			NODE_TITLE: "> li.jasmine-suite-detail",
+			NODE_SPECS: "> ul.jasmine-specs",
+			NODE_SUITES: "> ul.jasmine-suite"
 		},
 		TEXT: {
 			COLLAPSE: "Collapse All",
@@ -55,7 +56,12 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.getSpecFilter = function(){
 		var match = CONST.FILTER_REGEXP.exec(window.location.search);
-		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+		if(match !== null) {
+			var filter = decodeURIComponent(match[1].replace(/\+/g, " "));
+			if(filter !== "") {
+				return filter;
+			}
+		}
 	};
 
 	/**
@@ -114,7 +120,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 */
 	jasmineTree.filterSpec = function(){
 		var filter = jasmineTree.getSpecFilter();
-		if(filter === null){
+		if(filter === undefined){
 			return;
 		}
 		// We have a filter. First collapse all

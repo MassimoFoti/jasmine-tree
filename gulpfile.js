@@ -36,7 +36,8 @@ function assembleBanner(version){
 	var banner = [
 		"/*! ",
 		pkg.name + " " + version + " " + now.toISOString(),
-		"Copyright " + now.getFullYear() + " Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)",
+		pkg.homepage,
+		"Copyright 2015-" + now.getFullYear() + " Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)",
 		"Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0",
 		" */",
 		""].join("\n");
