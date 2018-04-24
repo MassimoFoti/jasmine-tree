@@ -13,7 +13,6 @@ module.exports = function(config) {
 		frameworks: ["jasmine"],
 		files: [
 			// Jasmine libs
-			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/jasmineFixtures.min.js",
 
 			// Config
