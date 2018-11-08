@@ -39,8 +39,8 @@ if(typeof(window.jasmineTree) === "undefined"){
 
 	/**
 	 * Returns the value of the "spec" parameter in the given string. Undefined if it's not specified
-	 * @param {String} searchStr
-	 * @return {undefined|String}
+	 * @param {string} searchStr
+	 * @return {undefined|string}
 	 */
 	jasmineTree.getSpecFilter = function(searchStr){
 		const match = CONST.FILTER_REGEXP.exec(searchStr);
@@ -136,7 +136,7 @@ if(typeof(window.jasmineTree) === "undefined"){
 	 * @typedef {Object} jasmineTree.Suite.options
 	 *
 	 * @property {HTMLElement} rootNode
-	 * @property {String} rootPath
+	 * @property {string} rootPath
 	 */
 
 	/**
@@ -220,8 +220,8 @@ if(typeof(window.jasmineTree) === "undefined"){
 		/**
 		 * Equalize element.matches across browsers
 		 * @param {HTMLElement} node
-		 * @param {String} selector
-		 * @return {Boolean}
+		 * @param {string} selector
+		 * @return {boolean}
 		 */
 		const nodeMatches = function(node, selector){
 			let methodName = "matches";
@@ -243,8 +243,8 @@ if(typeof(window.jasmineTree) === "undefined"){
 
 		/**
 		 * Given a filter string, coming from the querystring, search if the suite contains specs that match it
-		 * @param {String} path
-		 * @return {Boolean}
+		 * @param {string} path
+		 * @return {boolean}
 		 */
 		this.containsPath = function(path){
 			// Matches the suite
